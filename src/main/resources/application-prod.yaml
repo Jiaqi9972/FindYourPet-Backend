@@ -10,9 +10,6 @@ spring:
       ddl-auto: update
     show-sql: false
     database: postgresql
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 firebase:
   type: service_account
