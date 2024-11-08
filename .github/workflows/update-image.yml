@@ -1,0 +1,51 @@
+name: Update FindYourPet Docker Image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update FindYourPet Docker Image
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "Stopping the existing container..."
+            sudo docker stop findyourpet || echo "Container findyourpet was not running, skipping stop step"
+            sudo docker rm findyourpet || echo "Container findyourpet does not exist, skipping removal step"
+            
+            echo "Pulling the latest Docker image..."
+            sudo docker pull qu9972/findyourpet-backend:latest
+
+            echo "Running the new Docker container with updated image..."
+            sudo docker run -d \
+              --name findyourpet \
+              --network="host" \
+              --env-file prod.env \
+              qu9972/findyourpet-backend:latest
+
+            echo "Verifying if the container is running..."
+            RUNNING=$(sudo docker inspect -f '{{.State.Running}}' findyourpet)
+            if [ "$RUNNING" = "true" ]; then
+              echo "Container findyourpet is successfully running."
+            else
+              echo "Container findyourpet failed to start."
+              exit 1
+            fi
+
+      - name: Output Container Logs
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            echo "Displaying the latest container logs..."
+            sudo docker logs findyourpet --tail 10
