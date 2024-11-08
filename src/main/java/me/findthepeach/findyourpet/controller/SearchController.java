@@ -41,7 +41,7 @@ public class SearchController {
             @Parameter(description = "Center longitude of search area")
             @RequestParam @DecimalMin("-180") @DecimalMax("180") Double longitude,
             @Parameter(description = "Search radius in miles")
-            @RequestParam @Positive @Max(100) Double radiusInMiles,
+            @RequestParam @Positive Double radiusInMiles,
             @Parameter(description = "Filter by status: true for lost pets, false for found pets, null for both")
             @RequestParam(required = false) Boolean lost) {
 
@@ -57,7 +57,7 @@ public class SearchController {
             @Parameter(description = "Center longitude of search area")
             @RequestParam @DecimalMin("-180") @DecimalMax("180") Double longitude,
             @Parameter(description = "Search radius in miles")
-            @RequestParam @Positive @Max(100) Double radiusInMiles,
+            @RequestParam @Positive Double radiusInMiles,
             @Parameter(description = "Page number (0-based)")
             @RequestParam @PositiveOrZero Integer page,
             @Parameter(description = "Page size")
