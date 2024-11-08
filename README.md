@@ -56,4 +56,14 @@
   
   Get detailed information of a specific pet
 
+
+
+## Deploy
+
++ use cloud-init.sh as the user data to create environment
+
++ run `sudo systemctl reload nginx` to reload nginx
+
++ `docker run ... qu9972/findyourpet-backend:latest`
+
  
