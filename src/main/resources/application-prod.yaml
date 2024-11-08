@@ -1,7 +1,7 @@
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://host.docker.internal:5432/find_your_pet
+    url: jdbc:postgresql://172.17.0.1:5432/find_your_pet
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
   jpa:
