@@ -11,16 +11,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Filter changes in src/main
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            src-main:
+              - 'src/main/**'
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          java-version: "17"
+          distribution: "temurin"
 
       - name: Cache Maven packages
         uses: actions/cache@v2
